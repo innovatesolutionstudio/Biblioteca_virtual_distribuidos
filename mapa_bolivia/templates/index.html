@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mapa Interpolado de Bolivia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .modulo-mapas {
+      background: #fff;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .modulo-mapas-titulo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: #222;
+      max-width: 800px;
+      margin-inline: auto;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      margin-bottom: 40px;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .map-container {
+      background: white;
+      width: 420px;
+      height: 480px;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .map-container img {
+      width: 100%;
+      height: 400px;
+      object-fit: contain;
+      border-radius: 5px;
+    }
+
+    .form-container {
+      margin: 0 auto 60px;
+      max-width: 600px;
+    }
+
+    .form-container form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .form-container input[type="number"] {
+      padding: 12px 16px;
+      width: 300px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      outline: none;
+    }
+
+    .form-container button {
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #245a38;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: background-color 0.3s;
+    }
+
+    .form-container button:hover {
+      background-color: #1d432b;
+    }
+
+    .modulo-mapas-galeria {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+
+    .modulo-mapas-galeria img {
+      width: 400px;
+      height: auto;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(177, 45, 45, 0.08);
+    }
+
+    .modulo-mapas-buscador {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      background: #f8f8f8;
+      padding: 12px 20px;
+      border-radius: 9999px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .modulo-mapas-buscador button {
+      background: #245a38;
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .modulo-mapas-buscador button:hover {
+      background: #1d432b;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="modulo-mapas">
+    {% if img_data %}
+    <div class="container">
+      <div class="map-container">
+        <h3>Mapa Generado</h3>
+        <img src="data:image/png;base64,{{ img_data }}" alt="Mapa Interpolado">
+        <br>
+        <h3>Año: {{ year }}</h3>
+      </div>
+      <div class="map-container">
+        <h3>Mapa Actual</h3>
+        <img src="{{ url_for('static', filename='images/mapa de bolivia actual.jpg') }}" alt="Mapa Actual">
+        <br>
+        <h3>Año 2025</h3>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="form-container">
+      <br>
+      <form method="POST">
+        <br>
+        <input 
+          type="number" 
+          name="year" 
+          placeholder="Escribe el año para hacer tu comprobación"
+          required>
+        <button type="submit">Generar Mapa</button>
+      </form>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    const form = document.querySelector('.form-container form');
+    const yearInput = form.querySelector('input[name="year"]');
+
+    form.addEventListener('submit', function(e) {
+      const year = parseInt(yearInput.value);
+      if (isNaN(year) || year < 1821 || year > 2025) {
+        e.preventDefault();
+        Swal.fire({
+          icon: 'error',
+          title: 'Año no válido',
+          text: 'Por favor ingresa un año entre 1821 y 2025.',
+          confirmButtonColor: '#245a38'
+        });
+        yearInput.focus();
+        yearInput.select();
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+
+<!--Cabecera-->
+<%- include('../Pagina/cabecera.ejs') %>
+
+
+<section class="modulo-detalle-libro">
+  <div class="libro-detalle-header">
+    <div class="libro-portada">
+      <img src="<%= libro.portada %>" alt="<%= libro.titulo %>" />
+    </div>
+    <div class="libro-info">
+      <h2><%= libro.titulo %></h2>
+      <p><%= libro.sinopsis %></p>
+      <a href="<%= libro.documento %>" target="_blank">
+        <button class="leer-boton">Comenzar a leer</button>
+      </a>
+    </div>
+  </div>
+
+  <div class="libro-detalle-cuerpo">
+    <div class="libro-descripcion">
+      <h4>Descripción</h4>
+      <p><%= libro.sinopsis %></p>
+    </div>
+    <div class="libro-meta">
+      <p><strong>Autor</strong><br><%= libro.autor %></p>
+      <p><strong>Edición</strong><br><%= libro.edicion %></p>
+      <p><strong>Editorial</strong><br><%= libro.editorial %></p>
+      <p><strong>Género</strong><br><%= libro.genero %></p>
+      <p><strong>Idioma</strong><br><%= libro.idioma %></p>
+      <p><strong>Año de Publicación</strong><br><%= libro.ano_publicacion %></p>
+    </div>
+  </div>
+</section>
+
+    <!--Pie de pagina -->
+<%- include('../Pagina/footer.ejs') %>

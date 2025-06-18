@@ -1,0 +1,73 @@
+/*---------------modulo cuadro -------------*/
+
+.cultural-grid {
+  display: flex;
+  flex-direction: row; /* Ahora en fila horizontal */
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.cultural-card {
+  flex: 1 1 30%;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.cultural-card:hover {
+  transform: translateY(-5px);
+}
+
+.cultural-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.cultural-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cultural-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+.cultural-link {
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: 2px solid black;
+  background: white;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 110px;
+}
+
+.cultural-link:hover {
+  background: black;
+  color: white;
+}
+
+.cultural-img {
+  width: 120px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}

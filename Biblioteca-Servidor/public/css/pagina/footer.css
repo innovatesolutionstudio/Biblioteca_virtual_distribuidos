@@ -1,0 +1,85 @@
+/* -------- Footer Biblioteca Virtual -------- */
+
+.footer-biblioteca {
+  background-color: #fff;
+  padding: 50px 30px 20px;
+  font-family: "Inter", sans-serif;
+  color: #222;
+  border-top: 1px solid #ddd;
+}
+
+.footer-biblioteca-contenido {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto 30px;
+}
+
+.footer-biblioteca-columna {
+  flex: 1 1 180px;
+}
+
+.footer-logo {
+  width: 140px;
+  margin-bottom: 15px;
+}
+
+.footer-biblioteca-columna h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.footer-biblioteca-columna ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-biblioteca-columna ul li {
+  font-size: 0.7rem;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.footer-biblioteca-columna ul li:hover {
+  color: #757474;
+}
+
+.footer-biblioteca hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+.footer-biblioteca-copy {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.texto_logo_footer {
+  font-size: 0.7rem;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  text-align: justify;
+}
+
+.logo_text_footer {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+
+}
+.logo_text_footer strong {
+  font-size: 40px;
+  color: #000;
+  
+}

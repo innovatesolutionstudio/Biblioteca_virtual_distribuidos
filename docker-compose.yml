@@ -1,0 +1,60 @@
+services:
+  biblioteca-servidor:
+    build: ./Biblioteca-Servidor
+    ports:
+      - "3000:3000"
+    networks:
+      - red-biblioteca
+
+  libros-service:
+    build: ./Libros-Service
+    ports:
+      - "4000:4000"
+    networks:
+      - red-biblioteca
+
+  dashboardcliente-service:
+    build: ./DashboarCliente-Service
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./DashboarCliente-Service/.env
+    volumes:
+      - ./DashboarCliente-Service/uploads:/app/uploads
+    networks:
+      - red-biblioteca
+
+  chatbot-service:
+    build: ./Chatbot-Service
+    ports:
+      - "8081:80"
+    networks:
+      - red-biblioteca
+
+  preguntalb-service:
+    build: ./PreguntaLB-Service
+    ports:
+      - "4100:4100"
+    networks:
+      - red-biblioteca
+    depends_on:
+      - chatbot-service
+
+  mapa-bolivia-service:
+    build:
+      context: ./mapa_bolivia
+    ports:
+      - "5000:5000"
+    networks:
+      - red-biblioteca
+
+  elecciones-service:
+    build: ./Elecciones-Service
+    ports:
+      - "5003:5003"
+    networks:
+      - red-biblioteca
+
+networks:
+  red-biblioteca:
+    driver: bridge

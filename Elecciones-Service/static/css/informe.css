@@ -1,0 +1,222 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background-color: #ffffff;
+    color: #333;
+}
+
+.hero {
+    color: rgb(225, 255, 1);
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 38px;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    text-shadow: 2px 2px 4px #000; /* sombra negra para bordear el texto */
+}
+
+.strong {
+    font-weight: 900;
+    font-size: 42px;
+    color: rgb(182, 14, 14);
+    text-shadow: 2px 2px 4px #000;
+}
+
+.strong2 {
+    font-weight: 900;
+    font-size: 42px;
+    color: rgb(19, 103, 29);
+    text-shadow: 2px 2px 4px #000;
+}
+
+
+.hero h2 {
+    font-size: 20px;
+    font-weight: 500;
+    color: rgb(36, 36, 36);
+}
+
+.hero p {
+
+    font-size: 16px;
+    color:rgb(0, 0, 0);
+}
+
+
+
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+
+/*bloque 1 votacion*/
+
+
+.bloque-votacion {
+    text-align: center;
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.bloque-votacion h1 {
+    font-size: 26px;
+    color: #353535;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    letter-spacing: 1px;
+}
+
+.bloque-votacion img {
+    max-width: 90%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+
+
+/*informe */
+
+.partido-box {
+    border: 3px solid; /* más ancho para resaltar el degradado */
+    border-image: linear-gradient(to right, rgb(161, 12, 12), rgb(241, 255, 38), rgb(7, 84, 7)) 1;
+    border-radius: 8px;
+    background-color: #fdfcfc;
+    margin: 40px auto;
+    padding: 20px;
+    max-width: 900px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+
+.partido-box h2 {
+    font-size: 22px;
+    color: #232323;
+    margin-bottom: 5px;
+}
+
+.partido-box p {
+    font-size: 14px;
+    color: #222;
+    margin: 5px 0 15px 0;
+}
+
+.tabla-departamento {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.tabla-departamento thead th {
+    background-color: #7f7f7f;
+    color: white;
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.tabla-departamento tbody td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.tabla-departamento tbody tr:nth-child(even) {
+    background-color: #f4f4f4;
+}
+
+.total-row {
+    font-weight: bold;
+    background-color: #e0dede;
+}
+
+
+/*regresion */
+
+
+.regresion-logistica {
+    background-color: #ffffff;
+    border: 3px solid #ddd;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 50px auto;
+    max-width: 1100px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.titulo-principal {
+    text-align: center;
+    font-size: 32px;
+    color: #003366;
+    margin-bottom: 10px;
+}
+
+.texto-resaltado {
+    color: #d11b1b;
+    font-weight: bold;
+}
+
+.subtitulo {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.panel-logistica {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.panel-seleccion {
+    flex: 1;
+    min-width: 300px;
+}
+
+.panel-seleccion h2 {
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.panel-seleccion label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.panel-seleccion select {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.partido-activo {
+    margin-top: 15px;
+    font-size: 16px;
+    color: #333;
+}
+
+.panel-grafico {
+    flex: 2;
+    min-width: 300px;
+    text-align: center;
+}
+
+.panel-grafico img {
+    max-width: 100%;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+

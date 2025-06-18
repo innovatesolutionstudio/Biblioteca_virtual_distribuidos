@@ -1,0 +1,153 @@
+{
+  "libros": {
+    "ID_LIBRO": {
+      "titulo": "",
+      "autor": "",
+      "ano_publicacion": 0,
+      "genero": "",
+      "idioma": "Español",
+      "precio": 15.99,
+      "portada": "URL_DE_LA_IMAGEN",
+      "editorial": "Editorial Ejemplo",
+      "edicion": "1era edición",
+      "documento": "URL_DEL_DOCUMENTO",
+      "descripcion": "Descripción general del libro",
+      "sinopsis": "Resumen del libro",
+      "comentarios": {
+        "ID_COMENTARIO_1": {
+          "usuario": "Usuario1",
+          "comentario": "Comentario sobre el libro",
+          "fecha": "2025-04-03"
+        },
+        "ID_COMENTARIO_2": {
+          "usuario": "Usuario2",
+          "comentario": "Comentario adicional sobre el libro",
+          "fecha": "2025-04-04"
+        }
+      }
+    }
+  },
+ 
+  "categorias": {
+    "ID_CATEGORIA": {
+      "nombre_categoria": "Ficción",
+      "descripcion_categoria": "Categoría de libros de ficción",
+      "tags": ["aventura", "drama", "suspenso"]
+    }
+  },
+ 
+  "imagenes_generadas": {
+    "ID_IMAGEN": {
+      "fecha_creacion": "2025-04-03",
+      "imagen_url": "URL_DE_LA_IMAGEN",
+      "estado": "Procesada",
+      "descripcion": "Imagen generada para el libro ejemplo",
+      "categoria": "ID_CATEGORIA",
+      "tags": ["paisaje", "digital", "futurista"]
+    }
+  },
+ 
+  "imagenes_guardadas": {
+    "ID_IMAGEN": {
+      "fecha_creacion": "2025-04-03",
+      "imagen_url": "URL_DE_LA_IMAGEN",
+      "descripcion": "Imagen guardada de ejemplo",
+      "nombre": "Imagen de paisaje",
+      "categoria": "ID_CATEGORIA",
+      "tags": ["paisaje", "resolución alta"],
+      "resolucion": "1920x1080"
+    }
+  },
+ 
+  "usuarios": {
+    "ID_USUARIO": {
+      "nombre_usuario": "Usuario Ejemplo",
+      "email": "usuario@ejemplo.com",
+      "foto_perfil": "URL_FOTO_PERFIL",
+      "fecha_registro": "2025-01-01",
+      "rol": "usuario",
+      "historial_comentarios": {
+        "ID_COMENTARIO_1": {
+          "libro_id": "ID_LIBRO",
+          "comentario": "Comentario sobre el libro",
+          "fecha": "2025-04-03"
+        }
+      }
+    }
+  },
+ 
+  "comentarios": {
+    "ID_COMENTARIO": {
+      "usuario_id": "ID_USUARIO",
+      "comentario": "Comentario sobre un libro o imagen",
+      "fecha": "2025-04-03",
+      "tipo": "libro",
+      "relacionado_a": "ID_LIBRO"
+    }
+  },
+ 
+  "puntuaciones": {
+    "ID_PUNTUACION": {
+      "usuario_id": "ID_USUARIO",
+      "puntaje": 4,
+      "comentario": "Buen libro, pero me gustaría más desarrollo en los personajes.",
+      "fecha": "2025-04-03",
+      "tipo": "libro",
+      "relacionado_a": "ID_LIBRO"
+    }
+  },
+ 
+  "preferencias": {
+    "ID_USUARIO": {
+      "preferencias_genero": ["Ficción", "Ciencia Ficción", "Aventura"],
+      "preferencias_temporalidad": ["Nuevos", "Populares"],
+      "temas": ["viajes", "espacio", "tecnología"]
+    }
+  },
+ 
+  "libros_leidos": {
+    "ID_USUARIO": {
+      "libros": [
+        {
+          "libro_id": "ID_LIBRO_1",
+          "fecha_inicio": "2025-01-01",
+          "fecha_fin": "2025-01-10",
+          "progreso": 100
+        },
+        {
+          "libro_id": "ID_LIBRO_2",
+          "fecha_inicio": "2025-02-01",
+          "fecha_fin": "2025-02-20",
+          "progreso": 75
+        }
+      ]
+    }
+  },
+ 
+  "notificaciones": {
+    "ID_NOTIFICACION": {
+      "usuario_id": "ID_USUARIO",
+      "mensaje": "Nuevo libro disponible en la categoría Ficción.",
+      "fecha_envio": "2025-04-03",
+      "leida": false
+    }
+  },
+ 
+  "archivos": {
+    "ID_ARCHIVO": {
+      "tipo_archivo": "PDF",
+      "tamaño": "10MB",
+      "url": "URL_DEL_ARCHIVO",
+      "libro_id": "ID_LIBRO"
+    }
+  },
+ 
+  "reportes": {
+    "ID_REPORTE": {
+      "usuario_id": "ID_USUARIO",
+      "tipo_reporte": "Problema técnico",
+      "descripcion": "El libro no carga correctamente.",
+      "fecha_reporte": "2025-04-03"
+    }
+  }
+}

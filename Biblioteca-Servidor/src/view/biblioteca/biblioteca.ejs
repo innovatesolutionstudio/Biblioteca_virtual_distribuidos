@@ -1,0 +1,66 @@
+<!--Cabecera-->
+<%- include('../Pagina/cabecera.ejs') %>
+
+  <section class="modulo-libros">
+    <div class="libros-header">
+      <div class="libros-texto">
+        <h2>Busca entre diferentes libros históricos</h2>
+        <p>
+          Nuestra biblioteca virtual te permite explorar libros, documentos y
+          mapas históricos de Bolivia. Usa nuestro buscador avanzado para
+          encontrar información por época, autor o tema.
+        </p>
+
+      </div>
+      <div class="libros-imagen">
+        <img src="/img/biblioteca.jpg" alt="Biblioteca" />
+      </div>
+    </div>
+    <form class="libros-buscador" action="/Biblioteca" method="GET">
+      <input type="text" name="q" placeholder="Escribe el título, autor o palabra clave..."
+        value="<%= typeof query !== 'undefined' ? query : '' %>">
+      <button type="submit">Buscar</button>
+      <% if (query || categoria) { %>
+        <a href="/Biblioteca"><button type="button">Eliminar filtros</button></a>
+        <% } %>
+    </form>
+
+    <div class="libros-filtros">
+      <% if (generos && generos.length> 0) { %>
+        <% generos.forEach(gen=> { %>
+          <a href="/Biblioteca?categoria=<%= gen.toLowerCase() %>">
+            <button class="<%= categoria === gen.toLowerCase() ? 'activo' : '' %>">
+              <%= gen %>
+            </button>
+          </a>
+          <% }) %>
+            <% } else { %>
+              <p>No hay géneros registrados.</p>
+              <% } %>
+    </div>
+
+
+
+    <div class="libros-grid">
+      <% libros.forEach(libro=> { %>
+        <div class="libro-card">
+          <img src="<%= libro.portada %>" alt="Portada del libro">
+          <h4>
+            <%= libro.titulo %>
+          </h4>
+          <p>Autor: <%= libro.autor %>
+          </p>
+          <p>Publicación: <%= libro.ano_publicacion %>
+          </p>
+          <div class="libros-ver-libro">
+            <a href="/Libro/<%= libro.id %>">Ver Libro</a>
+
+          </div>
+        </div>
+        <% }) %>
+    </div>
+
+  </section>
+
+  <!--Pie de pagina -->
+  <%- include('../Pagina/footer.ejs') %>

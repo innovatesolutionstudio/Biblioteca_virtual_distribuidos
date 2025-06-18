@@ -1,0 +1,9 @@
+<form action="/sumar" method="POST">
+  <input type="number" name="num1" placeholder="Número 1" required>
+  <input type="number" name="num2" placeholder="Número 2" required>
+  <button type="submit">Sumar</button>
+</form>
+
+<% if (typeof resultado !== 'undefined') { %>
+  <h2>Resultado: <%= resultado %></h2>
+<% } %>

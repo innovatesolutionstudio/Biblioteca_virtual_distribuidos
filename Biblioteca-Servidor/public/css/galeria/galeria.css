@@ -1,0 +1,75 @@
+/* -------- Módulo Imágenes con IA -------- */
+
+.modulo-imagenes-ia {
+    font-family: 'Inter', sans-serif;
+    background-color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .imagenes-ia-header h2 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  
+  .imagenes-ia-header p {
+    font-size: 1rem;
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto 40px;
+  }
+  
+  .imagenes-ia-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    max-width: 800px;
+    margin: 0 auto 50px;
+    flex-wrap: wrap;
+  }
+  
+  .imagenes-ia-form input {
+    flex: 1;
+    min-width: 300px;
+    padding: 14px 20px;
+    border-radius: 9999px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  
+  .imagenes-ia-form button {
+    background-color: #245a38;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .imagenes-ia-form button:hover {
+    background-color: #1d432c;
+  }
+  
+  .imagenes-ia-subtitulo h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+  
+  .imagenes-ia-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .imagenes-ia-grid img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  

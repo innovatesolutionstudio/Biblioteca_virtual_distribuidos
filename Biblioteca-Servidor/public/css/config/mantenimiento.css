@@ -1,0 +1,42 @@
+  .mantenimiento-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background-color: #fdfdfd;
+    min-height: 80vh;
+  }
+
+  .mantenimiento-box {
+    max-width: 800px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .mantenimiento-box img {
+    width: 180px;
+    margin-bottom: 20px;
+  }
+
+  .mantenimiento-box h1 {
+    font-size: 32px;
+    color: #e67e22;
+    margin-bottom: 15px;
+  }
+
+  .mantenimiento-box p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+
+  .mantenimiento-box code {
+    background-color: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 15px;
+    color: #333;
+  }

@@ -1,0 +1,91 @@
+<!--Cabecera-->
+<%- include('../Pagina/cabecera.ejs') %>
+<style>
+  .chat-item {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  font-size: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+</style>
+<section class="asistente-virtual">
+  <div class="asistente-encabezado">
+    <h2>¡Hola! Soy tu asistente virtual</h2>
+    <p>
+      Puedo ayudarte con información sobre la historia de Bolivia, personajes, eventos y documentos históricos. ¿En qué te puedo ayudar?
+    </p>
+  </div>
+
+  <div class="asistente-chat-carrusel" id="chatCarrusel">
+    <div class="chat-item">❝<br><strong>¿Cómo era La Paz en 1825?</strong><br>En 1825, La Paz era una ciudad colonial con calles empedradas...</div>
+    <div class="chat-item">❝<br><strong>¿Qué pasó en la Guerra Federal de 1898?</strong><br>La Guerra Federal fue un conflicto entre liberales y conservadores...</div>
+    <div class="chat-item">❝<br><strong>¿Cuándo se firmó el Acta de Independencia?</strong><br>El 6 de agosto de 1825 se firmó el acta de independencia...</div>
+  </div>
+
+  <div class="asistente-formulario">
+    <input type="text" id="preguntaInput" name="pregunta" placeholder="Ingresa tu consulta..." />
+
+    <button>Preguntar</button>
+
+    
+
+  </div>
+</section>
+
+<!--Pie de pagina -->
+<%- include('../Pagina/footer.ejs') %>
+
+<script>
+document.querySelector('.asistente-formulario button').addEventListener('click', async () => {
+  const input = document.getElementById('preguntaInput');
+
+  const pregunta = input.value.trim();
+  const carrusel = document.getElementById('chatCarrusel');
+
+  if (!pregunta) return;
+
+  // Ocultar recomendaciones si aún están visibles
+  if (carrusel.children.length > 0) {
+    carrusel.innerHTML = ''; // vacía todo
+  }
+
+  // Mostrar mensaje temporal tipo "pensando..."
+  const itemTemporal = document.createElement('div');
+  itemTemporal.classList.add('chat-item');
+  itemTemporal.innerHTML = `❝<br><strong>${pregunta}</strong><br><em>Pensando...</em>`;
+  carrusel.appendChild(itemTemporal);
+
+  try {
+    const res = await fetch('/api/chatbot', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pregunta })
+    });
+
+    
+    const data = await res.json();
+
+    // Reemplazar el mensaje temporal con la respuesta final
+    itemTemporal.innerHTML = `❝<br><strong>${pregunta}</strong><br>${formatearRespuesta(data.respuesta)}`;
+  } catch (error) {
+    console.error('Error:', error);
+    itemTemporal.innerHTML = `❝<br><strong>${pregunta}</strong><br><em>Error al obtener la respuesta.</em>`;
+  }
+
+  input.value = '';
+});
+
+function formatearRespuesta(respuesta) {
+  if (Array.isArray(respuesta)) {
+    return respuesta.map(libro => `
+      <b>${libro.titulo}</b> de1 ${libro.autor}<br>
+      <em>${libro.descripcion}</em><br><br>
+    `).join('');
+  }
+  return respuesta;
+}
+</script>
+

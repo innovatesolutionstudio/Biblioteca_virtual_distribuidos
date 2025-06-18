@@ -1,0 +1,48 @@
+<!--Cabecera-->
+<%- include('../Pagina/cabecera.ejs') %>
+
+<section class="modulo-historia-container">
+  <div class="modulo-historia-texto">
+    <h1>Explora la historia de Bolivia<br>con datos reales</h1>
+    <p>
+      Nuestra biblioteca virtual te permite analizar la evolución de Bolivia mediante
+      gráficos interactivos. Visualiza indicadores históricos como inflación, población
+      por municipios y niveles de pobreza por departamento, utilizando datos estadísticos
+      oficiales.
+    </p>
+    <ul class="modulo-historia-lista">
+      <li>✅ Análisis de inflación desde 1960</li>
+      <li>✅ Censos poblacionales por municipio</li>
+      <li>✅ Indicadores de pobreza comparativos</li>
+      <li>✅ Gráficos dinámicos y reportes PDF</li>
+    </ul>
+    <a href="/Evolucion-Historica-Dashboard">
+      <button class="modulo-historia-boton">Explorar Dashboard</button>
+    </a>
+  </div>
+
+  <div class="modulo-historia-imagen">
+    <img src="/img/iglesia.png" alt="Gráfico histórico interactivo" />
+
+    <!-- Etiqueta superior con usuario -->
+    <div class="modulo-historia-etiqueta-usuario">
+      <img class="avatar" src="/img/user.png" alt="Usuario" />
+      <div class="info">
+        <strong>Analista de datos</strong><br />
+        <span>Informe: Bolivia 1960 - 2024</span>
+      </div>
+      <div class="icono-chat">📊</div>
+    </div>
+
+    <!-- Etiqueta inferior derecha -->
+    <div class="modulo-historia-etiqueta-inferior">
+      ✅ Datos históricos en acción
+    </div>
+
+    <!-- Icono flotante izquierdo -->
+    <div class="modulo-historia-icono-flotante">📈</div>
+  </div>
+</section>
+
+<!--Pie de página -->
+<%- include('../Pagina/footer.ejs') %>

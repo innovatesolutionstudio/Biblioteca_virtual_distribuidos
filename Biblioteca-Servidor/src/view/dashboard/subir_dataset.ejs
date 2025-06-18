@@ -1,0 +1,162 @@
+
+<%- include('cabecera.ejs') %>
+<section class="modulo-subir-dataset" style="padding: 40px; font-family: 'Inter', sans-serif; background-color: #f8f9fa; border-radius: 12px;">
+  <h2 style="text-align: center; font-size: 30px; color: #2c3e50; margin-bottom: 25px;">📊 Panel de Carga de Dataset</h2>
+
+  <form id="formSubida" enctype="multipart/form-data" style="max-width: 600px; margin: auto; display: flex; flex-direction: column; gap: 20px;">
+    
+    <div style="display: flex; flex-direction: column;">
+      <label for="tipoDataset" style="font-size: 15px; font-weight: 500; margin-bottom: 6px;">🔽 Tipo de dataset</label>
+      <select id="tipoDataset" required style="padding: 10px 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 15px;">
+        <option value="">-- Selecciona --</option>
+        <option value="inflacion">📈 Inflación</option>
+        <option value="poblacion">🧑‍🤝‍🧑 Censo de Población</option>
+        <option value="pobreza">📉 Censo de Pobreza</option>
+      </select>
+    </div>
+
+    <div style="display: flex; flex-direction: column;">
+      <label for="archivo" style="font-size: 15px; font-weight: 500; margin-bottom: 6px;">📁 Selecciona un archivo Excel</label>
+      <input type="file" name="archivo" id="archivo" accept=".xls,.xlsx" required style="padding: 10px; font-size: 15px; border: 1px solid #ccc; border-radius: 8px;" />
+    </div>
+
+    <div style="display: flex; justify-content: center; gap: 15px;">
+      <button type="button" id="btnVisualizar" style="padding: 12px 24px; font-size: 15px; background-color: #007acc; color: white; border: none; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer;">
+        👁 Visualizar
+      </button>
+      <button type="button" id="btnSubir" disabled style="padding: 12px 24px; font-size: 15px; background-color: #388e3c; color: white; border: none; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer;">
+        ✅ Subir Oficialmente
+      </button>
+    </div>
+  </form>
+
+  <div id="previewContainer" style="display: none; margin-top: 50px;">
+    <h3 style="text-align: center; font-size: 22px; color: #2c3e50; margin-bottom: 20px;">🔍 Vista Previa del Dataset</h3>
+    <div style="overflow-x: auto; box-shadow: 0 2px 6px rgba(0,0,0,0.1); border-radius: 8px;">
+      <table id="previewTable" border="1" cellpadding="10" style="width: 100%; border-collapse: collapse; font-size: 14px;">
+        <thead id="previewHead" style="background-color: #34495e; color: white;"></thead>
+        <tbody id="previewBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  const FLASK_HOST = '<%= flaskHost %>';
+  let archivoValido = false;
+  let formDataTemporal = null;
+
+  // Botón VISUALIZAR
+  document.getElementById('btnVisualizar').addEventListener('click', async () => {
+    const archivo = document.getElementById('archivo').files[0];
+    const tipo = document.getElementById('tipoDataset').value;
+
+    if (!archivo || !tipo) {
+      Swal.fire('Advertencia', '⚠️ Selecciona un archivo y un tipo de dataset.', 'warning');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('archivo', archivo);
+    formData.append('tipo', tipo);
+
+    try {
+      const res = await fetch(`${FLASK_HOST}/api/previsualizar-dataset`, {
+        method: 'POST',
+        body: formData
+      });
+
+      const text = await res.text();
+      const data = JSON.parse(text);
+
+      if (data.error) {
+        Swal.fire('Error', `❌ ${data.error}`, 'error');
+        archivoValido = false;
+        formDataTemporal = null;
+        document.getElementById('btnSubir').disabled = true;
+        return;
+      }
+
+      mostrarPreview(data);
+      archivoValido = true;
+      formDataTemporal = formData;
+      document.getElementById('btnSubir').disabled = false;
+    } catch (err) {
+      console.error('❌ Error al previsualizar:', err);
+      Swal.fire('Error', '❌ No se pudo previsualizar el archivo.', 'error');
+      archivoValido = false;
+      formDataTemporal = null;
+      document.getElementById('btnSubir').disabled = true;
+    }
+  });
+
+  // Botón SUBIR
+  document.getElementById('btnSubir').addEventListener('click', async () => {
+    if (!archivoValido || !formDataTemporal) {
+      Swal.fire('Advertencia', '⚠️ Primero debes visualizar un archivo válido.', 'warning');
+      return;
+    }
+
+    const { isConfirmed } = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esto reemplazará el dataset actual.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, subir',
+      cancelButtonText: 'Cancelar'
+    });
+
+    if (!isConfirmed) return;
+
+    try {
+      const res = await fetch(`${FLASK_HOST}/api/subir-dataset`, {
+        method: 'POST',
+        body: formDataTemporal
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        Swal.fire('Error', `❌ Error al subir: ${data.error}`, 'error');
+        return;
+      }
+
+      Swal.fire('Éxito', '✅ Archivo subido correctamente.', 'success').then(() => {
+        location.reload();
+      });
+    } catch (err) {
+      console.error('❌ Error al subir el archivo:', err);
+      Swal.fire('Error', '❌ No se pudo guardar el archivo.', 'error');
+    }
+  });
+
+  function mostrarPreview(data) {
+    const container = document.getElementById('previewContainer');
+    const head = document.getElementById('previewHead');
+    const body = document.getElementById('previewBody');
+
+    head.innerHTML = '';
+    body.innerHTML = '';
+
+    const trHead = document.createElement('tr');
+    data.columnas.forEach(col => {
+      const th = document.createElement('th');
+      th.textContent = col;
+      trHead.appendChild(th);
+    });
+    head.appendChild(trHead);
+
+    data.filas.forEach(fila => {
+      const tr = document.createElement('tr');
+      fila.forEach(celda => {
+        const td = document.createElement('td');
+        td.textContent = celda;
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+
+    container.style.display = 'block';
+  }
+</script>

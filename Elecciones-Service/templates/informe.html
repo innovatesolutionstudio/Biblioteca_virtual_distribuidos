@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Informe Electoral 2020 - Biblioteca Virtual</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/informe.css') }}">
+
+</head>
+
+<body>
+
+    <header class="hero">
+        <h1><span class="strong">Resultados</span> de la votación <span class="strong2">- 2020</span></h1>
+        <h2>Elecciones Primarias de Candidaturas de los Binomios Presidenciales</h2>
+        <p>
+            Aquí podrás encontrar los resultados detallados de las Elecciones Primarias de Bolivia 2020, organizadas por
+            provincia y partido político. Este informe incluye análisis visuales como regresión logística y
+            comparaciones de desempeño electoral, facilitando la comprensión del comportamiento del voto en todo el
+            país. La información ha sido procesada y presentada por la Biblioteca Virtual con fines educativos y de
+            transparencia.
+        </p>
+
+    </header>
+
+
+    <div class="bloque-votacion">
+        <h1>VOTACIÓN NACIONAL POR ORGANIZACIÓN POLÍTICA</h1>
+        <img src="{{ url_for('static', filename='votacion.png') }}" alt="Gráfico de votación nacional">
+    </div>
+
+
+
+    <div class="regresion-logistica">
+        <h1 class="titulo-principal">
+            Verifica con nuestra <span class="texto-resaltado">Regresión Logística</span> las votaciones por provincias
+        </h1>
+        <h3 class="subtitulo">Visualiza la probabilidad de victoria según el comportamiento del voto</h3>
+
+        <p style="text-align: justify; margin: 20px 0; font-size: 16px; line-height: 1.6;">
+            Esta sección utiliza un modelo estadístico de <strong>regresión logística</strong> para estimar la
+            probabilidad de que un partido gane en una determinada provincia en función del porcentaje de votos
+            obtenidos por los demás partidos.
+            A través de un análisis dimensional con PCA, reducimos múltiples variables a una sola dimensión
+            representativa,
+            lo que permite visualizar claramente el impacto de la competencia electoral sobre el resultado final.
+        </p>
+
+        <p style="text-align: justify; margin: 10px 0 30px 0; font-size: 16px; line-height: 1.6;">
+            En el gráfico generado, los puntos azules representan los datos reales observados, mientras que la línea
+            roja muestra
+            la <strong>curva sigmoide</strong> del modelo, indicando cómo varía la probabilidad de victoria conforme
+            cambia el apoyo a partidos contrarios.
+            Puedes seleccionar cualquier partido político del menú desplegable para ver cómo sus resultados se ajustan
+            al modelo.
+        </p>
+
+        <div class="panel-logistica">
+            <div class="panel-seleccion">
+                <h2>Regresión Logística Interactiva</h2>
+                <form method="get" action="/informe">
+                    <label for="partido">Selecciona un partido:</label>
+                    <select name="partido" id="partido" onchange="this.form.submit()">
+                        {% for p in partidos %}
+                        <option value="{{ p }}" {% if p==partido_seleccionado %}selected{% endif %}>{{ p }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+                <p class="partido-activo">
+                    Regresión logística para: <strong>{{ partido_seleccionado }}</strong>
+                </p>
+            </div>
+
+            <div class="panel-grafico">
+                <img src="{{ url_for('static', filename='logistica_partido.png') }}"
+                    alt="Gráfico de regresión logística">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="bloque-votacion">
+        <h1>VOTACIÓN NACIONAL POR DEPARTAMENTOS</h1>
+        {% for partido in informe_detallado %}
+        <div class="partido-box">
+            <h2>Partido Politico - {{ partido.partido }}</h2>
+            <p>
+                A continuación se muestra la distribución de votos válidos, blancos y nulos registrados
+                por el partido <strong>{{ partido.partido }}</strong> en las elecciones generales de 2020,
+                desglosada por departamento y representada gráficamente:
+            </p>
+
+            <div
+                style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 20px;">
+                <div style="flex: 1;">
+                    <img
+                        src="{{ url_for('static', filename='pastel_' + partido.partido.lower().replace(' ', '_') + '.png') }}">
+                </div>
+
+                <div style="flex: 2;">
+                    <table class="tabla-departamento">
+                        <thead>
+                            <tr>
+                                <th>Departamento</th>
+                                <th>Válidos</th>
+                                <th>Blancos</th>
+                                <th>Nulos</th>
+                                <th>Emitidos</th>
+                                <th>% Participación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for depto in partido.departamentos %}
+                            <tr>
+                                <td>{{ depto.departamento }}</td>
+                                <td>{{ depto.validos }}</td>
+                                <td>{{ depto.blancos }}</td>
+                                <td>{{ depto.nulos }}</td>
+                                <td>{{ depto.emitidos }}</td>
+                                <td>{{ depto.participacion }}%</td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="total-row">
+                                <td><strong>Total nacional</strong></td>
+                                <td>{{ partido.total_validos }}</td>
+                                <td>{{ partido.total_blancos }}</td>
+                                <td>{{ partido.total_nulos }}</td>
+                                <td>{{ partido.total_emitidos }}</td>
+                                <td>{{ partido.total_participacion }}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+
+</body>
+
+</html>

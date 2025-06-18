@@ -1,0 +1,40 @@
+/* -------- Módulo Galería Histórica -------- */
+
+.galeria-historica {
+    padding: 60px 20px;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    background-color: #fff;
+  }
+  
+  .galeria-historica-encabezado h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  
+  .galeria-historica-encabezado p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 2rem;
+  }
+  
+  .galeria-historica-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  
+  .galeria-historica-grid img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .galeria-historica-grid img:hover {
+    transform: scale(1.03);
+  }
+  

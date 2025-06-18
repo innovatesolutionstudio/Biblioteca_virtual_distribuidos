@@ -1,0 +1,64 @@
+<section class="chatbot-historia">
+  <div class="chatbot-historia-header">
+    <h2>Consulta sobre historia con nuestro Chatbot IA</h2>
+    <p>¿Tienes dudas sobre la historia de Bolivia? Nuestro Chatbot de IA está disponible para responder preguntas sobre
+      eventos históricos, personajes, documentos y mucho más.</p>
+
+  </div>
+
+  <a href="Asistente"><button class="modulo-historia-boton">Hacer consulta</button></a>
+   <BR></BR>
+
+  <div class="chatbot-historia-carrusel">
+    <div class="chatbot-historia-slide activo">
+
+      <h3>¿Cómo era La Paz en 1825?</h3>
+      <p>
+        En 1825, La Paz era una ciudad colonial con calles empedradas, casas de adobe y tejados de teja. Su economía
+        giraba en torno al comercio y la minería, con mercados activos y una sociedad dividida entre criollos, mestizos
+        e indígenas.
+      </p>
+    </div>
+    <div class="chatbot-historia-slide">
+
+      <h3>¿Qué pasó en la Guerra Federal de 1898?</h3>
+      <p>
+        La Guerra Federal fue un conflicto entre líderes liberales y conservadores. Terminó con la victoria liberal y la
+        transferencia de la sede de gobierno de Sucre a La Paz, consolidando su poder económico en el occidente del
+        país.
+      </p>
+    </div>
+    <div class="chatbot-historia-slide">
+
+      <h3>¿Cuándo fue la firma del Acta de Independencia?</h3>
+      <p>
+        El Acta de Independencia de Bolivia se firmó el 6 de agosto de 1825, proclamando la emancipación del país del
+        dominio español.
+      </p>
+
+    </div>
+
+  </div>
+  
+</section>
+<script>
+  const slides = document.querySelectorAll('.chatbot-historia-slide');
+  let currentIndex = 0;
+
+  function mostrarSiguienteSlide() {
+    const actual = slides[currentIndex];
+    actual.classList.remove('activo');
+    actual.classList.add('salida');
+
+    currentIndex = (currentIndex + 1) % slides.length;
+
+    const siguiente = slides[currentIndex];
+    siguiente.classList.remove('salida');
+    siguiente.classList.add('activo');
+
+    // Reset estado del slide anterior
+    setTimeout(() => actual.classList.remove('salida'), 600);
+  }
+
+  setInterval(mostrarSiguienteSlide, 5000);
+</script>

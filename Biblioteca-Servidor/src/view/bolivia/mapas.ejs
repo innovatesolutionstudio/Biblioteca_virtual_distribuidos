@@ -1,0 +1,24 @@
+<!--Cabecera-->
+<%- include('../Pagina/cabecera.ejs') %>
+
+<section class="modulo-mapas">
+  <h2 class="modulo-mapas-titulo">
+    Evolución Geográfica de Bolivia: Comparación de Mapas Históricos
+  </h2>
+
+  <div class="modulo-mapas-wrapper">
+<iframe
+  src="<%= iframeSrc %>"
+  frameborder="0"
+  class="modulo-mapas-conectado"
+  scrolling="no"
+  style="width: 100%; height: 700px;"></iframe>
+
+  </div>
+
+</section>
+
+
+
+  <!--Pie de pagina -->
+  <%- include('../Pagina/footer.ejs') %>

@@ -1,0 +1,144 @@
+.bolivia-modulo {
+    font-family: 'Inter', sans-serif;
+    background-color: #fff;
+    padding: 60px 40px 100px;
+    position: relative;
+    
+  }
+  
+  .bolivia-contenido {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  
+  .bolivia-texto {
+    flex: 1 1 500px;
+    max-width: 550px;
+  }
+  
+  .bolivia-texto h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+  
+  .bolivia-texto p {
+    color: #777;
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+  
+  .bolivia-botones {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  
+  .bolivia-botones button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: 2px solid black;
+    background: white;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .bolivia-botones button:hover {
+    background: black;
+    color: white;
+  }
+  
+  .bolivia-imagen {
+    flex: 1 1 400px;
+    max-width: 550px;
+  }
+  
+  .bolivia-imagen img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 30px;
+    display: block;
+  }
+  
+  /* Barra flotante */
+  .bolivia-barra-flotante {
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fafafa;
+    border-radius: 40px;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 90%;
+    max-width: 1100px;
+  }
+  
+  .bolivia-barra-flotante > div {
+    text-align: center;
+    min-width: 160px;
+  }
+  
+  .bolivia-barra-flotante h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  .bolivia-barra-flotante p {
+    font-size: 0.85rem;
+    color: #444;
+    margin: 0;
+  }
+  
+  .bolivia-barra-flotante span {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 0.85rem;
+  }
+  
+  .bolivia-boton-barra {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: 2px solid black;
+    background: white;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .bolivia-boton-barra:hover {
+    background: black;
+    color: white;
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .bolivia-contenido {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .bolivia-imagen img {
+      height: auto;
+    }
+  
+    .bolivia-barra-flotante {
+      flex-direction: column;
+      padding: 30px;
+      bottom: -80px;
+    }
+  }
+  

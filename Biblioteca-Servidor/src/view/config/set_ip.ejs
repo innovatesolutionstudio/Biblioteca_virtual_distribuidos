@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Configurar IPs de Microservicios</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .card {
+      background-color: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 500px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    .status {
+      font-weight: bold;
+      min-width: 130px;
+    }
+
+    .online {
+      color: green;
+    }
+
+    .offline {
+      color: red;
+    }
+
+    .btn-connect {
+      background-color: #28a745;
+    }
+
+    .btn-connect:hover {
+      background-color: #218838;
+    }
+
+    .btn-disconnect {
+      background-color: #dc3545;
+    }
+
+    .btn-disconnect:hover {
+      background-color: #c82333;
+    }
+
+    button.toggle-btn {
+      padding: 8px 14px;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Configuración de IPs</h2>
+
+    <!-- Flask -->
+    <label>Flask Host (Dashboard):</label>
+    <div class="input-group">
+      <span class="status <%= statuses.flask ? 'online' : 'offline' %>">
+        <%= statuses.flask ? '🟢 Conectado' : '🔴 Desconectado' %>
+      </span>
+      <input type="text" id="flaskInput" value="<%= urls.flaskHost || '' %>" required>
+      <button type="button" class="toggle-btn btn-connect" onclick="confirmToggle('flaskInput', this, 'flaskHost')">Conectar</button>
+    </div>
+
+    <!-- PHP -->
+    <label>PHP Host (Chatbot):</label>
+    <div class="input-group">
+      <span class="status <%= statuses.php ? 'online' : 'offline' %>">
+        <%= statuses.php ? '🟢 Conectado' : '🔴 Desconectado' %>
+      </span>
+      <input type="text" id="phpInput" value="<%= urls.phpHost || '' %>" required>
+      <button type="button" class="toggle-btn btn-connect" onclick="confirmToggle('phpInput', this, 'phpHost')">Conectar</button>
+    </div>
+  </div>
+<script>
+  function confirmToggle(inputId, button, fieldName) {
+    const input = document.getElementById(inputId);
+    const isConnecting = button.textContent === 'Conectar';
+
+    Swal.fire({
+      title: `¿Estás seguro de ${isConnecting ? 'conectar' : 'desconectar'}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (!result.isConfirmed) return;
+
+      if (isConnecting) {
+        const url = input.value.trim();
+        if (!url) {
+          Swal.fire('❌ Error', 'Debes ingresar una IP válida.', 'error');
+          return;
+        }
+
+        fetch('/configurar-ip/individual', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ [fieldName]: url })
+        })
+          .then(res => res.json())
+          .then(data => {
+            input.disabled = true;
+            button.textContent = 'Cambiar Ruta';
+            button.classList.remove('btn-connect');
+            button.classList.add('btn-disconnect');
+
+            const statusSpan = input.previousElementSibling;
+            statusSpan.classList.remove('offline');
+            statusSpan.classList.add('online');
+            statusSpan.innerHTML = '🟢 Conectado';
+          })
+          .catch(() => {
+            Swal.fire('❌ Error', 'No se pudo guardar la IP', 'error');
+          });
+
+      } else {
+        fetch('/configurar-ip/individual', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ [fieldName]: '' })
+        })
+          .then(res => res.json())
+          .then(data => {
+            input.disabled = false;
+            input.value = '';
+            button.textContent = 'Conectar';
+            button.classList.remove('btn-disconnect');
+            button.classList.add('btn-connect');
+
+            const statusSpan = input.previousElementSibling;
+            statusSpan.classList.remove('online');
+            statusSpan.classList.add('offline');
+            statusSpan.innerHTML = '🔴 Desconectado';
+          })
+          .catch(() => {
+            Swal.fire('❌ Error', 'No se pudo desconectar', 'error');
+          });
+      }
+    });
+  }
+</script>
+
+</html>
+
+
+

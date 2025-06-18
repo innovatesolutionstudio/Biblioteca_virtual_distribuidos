@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ISS Virtual Library - Registro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/login/login.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ 
+  <style>
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .error {
+      color: red;
+      font-size: 0.85em;
+      margin-top: 4px;
+    }
+    .password-wrapper input {
+      width: 100%;
+      padding-right: 40px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      background-image: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNzU3NTc1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZD0iTTEyIDJDNi41IDIgMiAxMiAyIDEyczQuNSA4IDExIDggMTItOC4zNyAxMi04LjM3UzE3LjUgMiAxMiAyeiIvPjwvc3ZnPg==");
+    }
+    .toggle-password:hover {
+      opacity: 1;
+    }
+   
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="login-form">
+      <div class="logo">
+        <img src="/img/logo.png" alt="ISS Logo" width="40" />
+      </div>
+      <h2>¡Regístrate!</h2>
+      <p>Completa todos los campos para crear tu cuenta.</p>
+ 
+      <% if (typeof error !== 'undefined') { %>
+        <div class="error-message"><%= error %></div>
+      <% } %>
+ 
+      <form action="/register" method="POST" onsubmit="return validarRegistro()">
+        <div class="form-group">
+          <label for="email">Correo</label>
+          <input type="email" name="email" id="email" required placeholder="Correo electrónico" autocomplete="off" />
+          <div id="error-email" class="error"></div>
+        </div>
+ 
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <div class="password-wrapper">
+            <input type="password" name="password" id="password" required placeholder="Contraseña" />
+            <span class="toggle-password" onclick="togglePassword()" id="eye-icon"></span>
+          </div>
+          <div id="error-password" class="error"></div>
+        </div>
+ 
+        <div class="form-buttons">
+          <button type="submit" class="login-btn">Registrarse</button>
+        </div>
+      </form>
+    </div>
+ 
+    <div class="carousel">
+      <img id="carousel-image" src="/img/login/img_login1.png" alt="Slide 1" />
+      <div class="dots">
+        <span class="dot active" onclick="changeSlide(0)"></span>
+        <span class="dot" onclick="changeSlide(1)"></span>
+        <span class="dot" onclick="changeSlide(2)"></span>
+      </div>
+    </div>
+  </div>
+  <script>
+  function togglePassword() {
+  const passwordInput = document.getElementById('password');
+  const toggle = document.getElementById('eye-icon');
+  const isPassword = passwordInput.type === 'password';
+ 
+  passwordInput.type = isPassword ? 'text' : 'password';
+ 
+  toggle.style.backgroundImage = isPassword
+    ? 'url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNTU1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZD0iTTExLjk5IDJDNi4wNCAyIDEuNzMgNi41OC4zNiA3LjkyYy0uNDkuNTQtLjQ5IDEuNTYgMCAyLjEybDguNjQgMTAuMzhjLjUxLjYxIDEuNTMuNjEgMi4wNCAwTDIzLjY0IDEwLjA0Yy40OS0uNTYuNDktMS41OC4wMS0yLjEyQzIyLjI2IDYuNTggMTcuOTQgMiAxMS45OSAyem0wIDFjNS4xMyAwIDguODMgMy42NCA5Ljg4IDUuMDgtLjgxIDEuMDEtNC43NSA1LjkyLTkuODggNS45Mi01LjE0IDAtOS4wOC00LjktOS44OS01LjkyQzMuMTYgNi42NCA2Ljg2IDMgMTEuOTkgM3oiLz48L3N2Zz4=")'
+    : 'url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNTU1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZD0iTTEyIDJDNi41IDIgMiAxMiAyIDEyczQuNSA4IDExIDggMTEtOC40IDEyLTggU3E3LjUgMiAxMiAyeiIvPjwvc3ZnPg==")';
+}
+ 
+ 
+  function validarRegistro() {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    document.getElementById('error-email').textContent = '';
+    document.getElementById('error-password').textContent = '';
+    let isValid = true;
+ 
+    const dominiosPermitidos = [
+      '@gmail.com', '@hotmail.com', '@outlook.com', '@yahoo.com',
+      '@edu.univalle.bo', '@cba.edu.bo'
+    ];
+    const emailValido = dominiosPermitidos.some(d => email.endsWith(d)) || /\.edu(\.\w+)*$/.test(email);
+ 
+    if (!email) {
+      document.getElementById('error-email').textContent = 'El campo correo es obligatorio.';
+      isValid = false;
+    } else if (!emailValido) {
+      document.getElementById('error-email').textContent = 'El correo debe ser institucional o permitido.';
+      isValid = false;
+    }
+ 
+    if (!password) {
+      document.getElementById('error-password').textContent = 'El campo contraseña es obligatorio.';
+      isValid = false;
+    } else {
+      if (password.length < 8) {
+        document.getElementById('error-password').textContent = 'Debe tener al menos 8 caracteres.';
+        isValid = false;
+      } else {
+        const regexMayuscula = /[A-Z]/;
+        const regexMinuscula = /[a-z]/;
+        const regexNumero = /[0-9]/;
+        const regexSimbolo = /[!@#$%^&*(),.?":{}|<>]/;
+        if (!regexMayuscula.test(password)) {
+          document.getElementById('error-password').textContent = 'Debe incluir al menos una mayúscula.';
+          isValid = false;
+        } else if (!regexMinuscula.test(password)) {
+          document.getElementById('error-password').textContent = 'Debe incluir al menos una minúscula.';
+          isValid = false;
+        } else if (!regexNumero.test(password)) {
+          document.getElementById('error-password').textContent = 'Debe incluir al menos un número.';
+          isValid = false;
+        } else if (!regexSimbolo.test(password)) {
+          document.getElementById('error-password').textContent = 'Debe incluir al menos un símbolo.';
+          isValid = false;
+        }
+      }
+    }
+ 
+    return isValid;
+  }
+ 
+  const images = [
+    '/img/login/img_login1.png',
+    '/img/login/img_login2.png',
+    '/img/login/img_login3.png'
+  ];
+  let currentIndex = 0;
+  const carouselImage = document.getElementById('carousel-image');
+  const dots = document.querySelectorAll('.dot');
+  function changeSlide(index) {
+    currentIndex = index;
+    carouselImage.src = images[currentIndex];
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
+  }
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % images.length;
+    changeSlide(currentIndex);
+  }, 4000);
+ 
+ 
+ 
+  // Mostrar modal si llega parámetro por URL
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('registro') === 'exito') {
+    Swal.fire({
+      icon: 'success',
+      title: 'Registro exitoso',
+      text: '¡Usuario registrado correctamente!',
+      confirmButtonColor: '#00804b'
+    }).then(() => {
+      window.location.href = '/login';
+    });
+  } else if (params.get('error') === 'existe') {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Correo duplicado',
+      text: 'Ya existe un usuario con ese correo.',
+      confirmButtonColor: '#00804b'
+    });
+  }
+ 
+ 
+  // Limpia inputs al cargar la vista de registro
+window.addEventListener('pageshow', function (event) {
+  if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+    document.getElementById('email').value = '';
+    document.getElementById('password').value = '';
+  }
+});
+ 
+</script>
+ 
+</body>
+</html>

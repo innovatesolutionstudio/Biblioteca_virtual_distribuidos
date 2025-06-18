@@ -1,0 +1,68 @@
+
+<%- include('cabecera.ejs') %>
+<section style="padding: 40px; font-family: 'Inter', sans-serif; background-color: #f4f6f9; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <h2 style="text-align: center; font-size: 28px; font-weight: 600; margin-bottom: 30px; color: #2c3e50;">📚 Panel de Gestión de Libros</h2>
+
+  <div style="text-align: right; margin-bottom: 20px;">
+    <button onclick="abrirFormularioLibro()" class="btn btn-primary" style="padding: 10px 20px; font-size: 15px; border-radius: 8px; background-color: #007bff; border: none; color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer;">
+      ➕ Nuevo Libro
+    </button>
+  </div>
+
+  <!-- Aquí podrías incluir una tabla de libros si deseas -->
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function abrirFormularioLibro() {
+    Swal.fire({
+      title: '📘 Nuevo Libro',
+      html:
+        '<input id="titulo" class="swal2-input" placeholder="Título">' +
+        '<input id="autor" class="swal2-input" placeholder="Autor">' +
+        '<input id="ano" class="swal2-input" type="number" placeholder="Año de Publicación">' +
+        '<input id="edicion" class="swal2-input" placeholder="Edición">' +
+        '<input id="editorial" class="swal2-input" placeholder="Editorial">' +
+        '<input id="genero" class="swal2-input" placeholder="Género">' +
+        '<input id="idioma" class="swal2-input" placeholder="Idioma">' +
+        '<textarea id="descripcion" class="swal2-textarea" placeholder="Descripción" rows="3"></textarea>' +
+        '<textarea id="sinopsis" class="swal2-textarea" placeholder="Sinopsis" rows="3"></textarea>' +
+        '<input id="archivo" type="file" class="swal2-file">',
+      showCancelButton: true,
+      confirmButtonText: 'Subir Libro',
+      preConfirm: async () => {
+        const archivo = document.getElementById('archivo').files[0];
+        if (!archivo || !archivo.name.endsWith('.pdf')) {
+          Swal.showValidationMessage('Debe seleccionar un archivo PDF');
+          return false;
+        }
+
+        const formData = new FormData();
+        formData.append('documento', archivo);
+        formData.append('titulo', document.getElementById('titulo').value);
+        formData.append('autor', document.getElementById('autor').value);
+        formData.append('ano_publicacion', document.getElementById('ano').value);
+        formData.append('descripcion', document.getElementById('descripcion').value);
+        formData.append('edicion', document.getElementById('edicion').value);
+        formData.append('editorial', document.getElementById('editorial').value);
+        formData.append('genero', document.getElementById('genero').value);
+        formData.append('idioma', document.getElementById('idioma').value);
+        formData.append('sinopsis', document.getElementById('sinopsis').value);
+
+        try {
+          const response = await fetch('/libros/crear', {
+            method: 'POST',
+            body: formData
+          });
+
+          const data = await response.json();
+          if (data.error) throw new Error(data.error);
+
+          Swal.fire('📘 Éxito', 'Libro subido correctamente', 'success').then(() => location.reload());
+        } catch (err) {
+          Swal.fire('Error', err.message, 'error');
+        }
+      }
+    });
+  }
+</script>

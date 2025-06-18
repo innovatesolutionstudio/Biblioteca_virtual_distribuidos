@@ -1,0 +1,120 @@
+.modulo-historia-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px;
+  font-family: sans-serif;
+  background: white;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.modulo-historia-texto {
+  flex: 1 1 400px;
+  max-width: 500px;
+}
+
+.modulo-historia-texto h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.modulo-historia-texto p {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 25px;
+}
+
+.modulo-historia-lista {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.modulo-historia-lista li {
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+.modulo-historia-boton {
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: 2px solid black;
+  background: white;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modulo-historia-boton:hover {
+  background: black;
+  color: white;
+}
+
+.modulo-historia-imagen {
+  position: relative;
+  flex: 1 1 400px;
+}
+
+.modulo-historia-imagen img {
+  width: 100%;
+  border-radius: 20px;
+}
+
+/* Etiqueta superior con avatar */
+.modulo-historia-etiqueta-usuario {
+  position: absolute;
+  top: 10%;
+  left: -10%;
+  background: white;
+  padding: 10px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  width: 260px;
+  gap: 10px;
+}
+
+.modulo-historia-etiqueta-usuario .avatar {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.modulo-historia-etiqueta-usuario .info {
+  flex: 1;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.modulo-historia-etiqueta-usuario .icono-chat {
+  font-size: 1.2rem;
+  color: green;
+}
+
+/* Etiqueta inferior derecha */
+.modulo-historia-etiqueta-inferior {
+  position: absolute;
+  bottom: 8%;
+  right: 5%;
+  background: white;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Icono flotante izquierdo */
+.modulo-historia-icono-flotante {
+  position: absolute;
+  top: 50%;
+  left: -6%;
+  background: #245a38;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 1rem;
+  transform: translateY(-50%);
+}

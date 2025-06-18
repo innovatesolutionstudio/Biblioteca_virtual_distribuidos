@@ -1,0 +1,40 @@
+{
+  "faq": {
+    "como_buscar_libros": {
+      "pregunta": "¿Cómo busco un libro?",
+      "respuesta": "Haz clic en el botón “Buscar un Libro” desde la página de inicio. Podrás escribir el título, autor o tema de interés y ver los resultados disponibles."
+    },
+    "como_generar_imagenes": {
+      "pregunta": "¿Cómo puedo generar imágenes con inteligencia artificial?",
+      "respuesta": "Desde la sección “Asistente”, describe la escena que deseas visualizar. Nuestro sistema usará IA para crear una imagen basada en tu descripción."
+    },
+    "que_es_modulo_mapas": {
+      "pregunta": "¿Qué es el módulo de mapas interactivos?",
+      "respuesta": "Este módulo permite ingresar una fecha específica para ver eventos históricos ocurridos en Bolivia. Explora el mapa y accede a datos visuales."
+    },
+    "como_acceder_galeria": {
+      "pregunta": "¿Dónde encuentro las imágenes generadas?",
+      "respuesta": "Desde el menú superior, haz clic en 'Galería'. Allí verás todas las imágenes que has creado con IA."
+    },
+    "necesito_registrarme": {
+      "pregunta": "¿Puedo acceder sin registrarme?",
+      "respuesta": "Puedes explorar parte del sitio como visitante, pero para generar imágenes, guardar favoritos o usar el asistente, necesitas una cuenta gratuita."
+    },
+    "costo_de_uso": {
+      "pregunta": "¿El uso de la Biblioteca Virtual tiene algún costo?",
+      "respuesta": "No. Todo el contenido es gratuito y de acceso libre. Solo necesitas registrarte para acceder a funciones avanzadas."
+    },
+    "como_uso_asistente": {
+      "pregunta": "¿Cómo uso el asistente virtual?",
+      "respuesta": "Haz clic en el botón 'Asistente virtual' en la página de inicio o desde el menú. El asistente puede ayudarte a encontrar libros, generar imágenes, ubicar hechos en el mapa y más."
+    },
+    "tipos_de_imagenes": {
+      "pregunta": "¿Qué tipo de imágenes puedo generar?",
+      "respuesta": "Puedes crear ilustraciones históricas, culturales o educativas. Por ejemplo: 'Una batalla en Sucre en 1825' o 'Una biblioteca colonial boliviana'."
+    },
+    "compartir_contenido": {
+      "pregunta": "¿Puedo compartir lo que genero?",
+      "respuesta": "Sí. Las imágenes generadas pueden descargarse y compartirse libremente con fines educativos, respetando los términos de uso."
+    }
+  }
+}

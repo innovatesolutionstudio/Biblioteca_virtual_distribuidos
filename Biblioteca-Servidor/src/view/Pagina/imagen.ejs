@@ -1,0 +1,12 @@
+<%- include('../Pagina/cabecera.ejs') %>
+
+<section style="text-align: center; padding: 2rem;">
+  <h2>Imagen Recuperada</h2>
+  <p><strong>Descripción:</strong> <%= imagen.descripcion %></p>
+  <p><strong>Fecha:</strong> <%= imagen.fecha %></p>
+  <p><strong>Código:</strong> <%= imagen.codigo %></p>
+  <p><strong>Verificación:</strong> <%= imagen.verificacion === 1 ? 'Verificada' : 'No verificada' %></p>
+<img src="data:image/png;base64,<%= imagen.imagen_base64 %>" alt="Imagen cargada desde base64" style="max-width: 600px;" />
+</section>
+
+<%- include('../Pagina/footer.ejs') %>

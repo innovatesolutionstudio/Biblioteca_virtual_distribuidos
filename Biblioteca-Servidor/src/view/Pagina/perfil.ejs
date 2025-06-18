@@ -1,0 +1,80 @@
+<!--Cabecera-->
+<%- include('cabecera.ejs') %>
+<link rel="stylesheet" href="/css/pagina/perfil.css">
+ 
+<section class="perfil-container">
+  <h1>Mi perfil</h1>
+  <p class="subtitulo">Tus datos personales</p>
+ 
+  <div class="info-box">
+    <p><strong>Nombre:</strong> <span><%= usuario.nombre %></span></p>
+    <p><strong>Apellido:</strong> <span><%= usuario.apellido %></span></p>
+    <p><strong>Correo:</strong> <span><%= usuario.correo %></span></p>
+    <p><strong>Número:</strong> <span><%= usuario.telefono %></span></p>
+  </div>
+ 
+  <button id="btnEditar" class="btn-editar">Editar</button>
+</section>
+ 
+<!-- Modal -->
+<div id="modalPerfil" class="modal">
+  <div class="modal-contenido">
+    <span class="cerrar" id="cerrarModal">&times;</span>
+    <h3>Editar perfil</h3>
+    <form action="/perfil/actualizar" method="POST" id="formPerfil">
+      <label>Nombre</label>
+      <input type="text" name="nombre" value="<%= usuario.nombre %>" required>
+ 
+      <label>Apellido</label>
+      <input type="text" name="apellido" value="<%= usuario.apellido %>" required>
+ 
+      <label>Correo electrónico</label>
+      <input type="email" name="correo" value="<%= usuario.correo %>" readonly>
+ 
+      <label>Teléfono</label>
+      <input type="text" name="telefono" value="<%= usuario.telefono %>">
+ 
+      <button type="submit">Guardar cambios</button>
+    </form>
+  </div>
+</div>
+ 
+<script>
+  document.getElementById('btnEditar').onclick = () => {
+    document.getElementById('modalPerfil').style.display = 'block';
+  };
+  document.getElementById('cerrarModal').onclick = () => {
+    document.getElementById('modalPerfil').style.display = 'none';
+  };
+  window.onclick = (e) => {
+    const modal = document.getElementById('modalPerfil');
+    if (e.target == modal) modal.style.display = 'none';
+  };
+ 
+  // Validación
+  document.getElementById('formPerfil').addEventListener('submit', function (e) {
+    const nombre = this.nombre.value.trim();
+    const apellido = this.apellido.value.trim();
+    const correo = this.correo.value.trim();
+    const telefono = this.telefono.value.trim();
+ 
+    const soloLetras = /^[a-zA-ZÁÉÍÓÚÑáéíóúñ\s]+$/;
+    const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const soloNumeros8 = /^\d{8}$/;
+ 
+    if (!soloLetras.test(nombre)) {
+      alert('El nombre solo debe contener letras.');
+      e.preventDefault();
+    } else if (!soloLetras.test(apellido)) {
+      alert('El apellido solo debe contener letras.');
+      e.preventDefault();
+    } else if (!correoValido.test(correo)) {
+      alert('El correo no es válido.');
+      e.preventDefault();
+    } else if (telefono && !soloNumeros8.test(telefono)) {
+      alert('El teléfono debe tener 8 dígitos.');
+      e.preventDefault();
+    }
+  });
+</script>
+<%- include('footer.ejs') %>

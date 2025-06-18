@@ -1,0 +1,65 @@
+<!-- Este archivo va en templates/grafico.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados Elecciones Bolivia 2020</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        img {
+            max-width: 90%;
+            height: auto;
+            margin-bottom: 30px;
+            border: 2px solid #ccc;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 60%;
+            background-color: #fff;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            font-size: 16px;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h2>Resultados Elecciones Bolivia 2020</h2>
+    <img src="{{ url_for('static', filename='votos_partido.png') }}" alt="Gráfico de votos">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Partido</th>
+                <th>Votos Totales</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for partido, votos in votos_partido %}
+            <tr>
+                <td>{{ partido }}</td>
+                <td>{{ "{:,}".format(votos).replace(",", ".") }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

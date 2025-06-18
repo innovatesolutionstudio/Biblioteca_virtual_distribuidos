@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Biblioteca Virtual ISS</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+      rel="stylesheet">
+    <!--Estilos - pagina principal-->
+    <link rel="stylesheet" href="/css/pagina/cabecera.css">
+    <link rel="stylesheet" href="/css/pagina/modulo_CB.css">
+    <link rel="stylesheet" href="/css/pagina/modulo_AI.css">
+    <link rel="stylesheet" href="/css/pagina/modulo_cuadro.css">
+    <link rel="stylesheet" href="/css/pagina/modulo_CH.css">
+    <link rel="stylesheet" href="/css/pagina/modulo_galeria.css">
+    <link rel="stylesheet" href="/css/pagina/modulo_chatbot.css">
+    <link rel="stylesheet" href="/css/pagina/footer.css">
+
+    <!--Estilos - pagina Libros-->
+    <link rel="stylesheet" href="/css/biblioteca/biblioteca1.css">
+    <link rel="stylesheet" href="/css/biblioteca/libro.css">
+
+    <!--Estilos - pagina Asistente-->
+    <link rel="stylesheet" href="/css/chatbot/chatbot.css">
+
+    <!--Estilos - pagina Galeria-->
+    <link rel="stylesheet" href="/css/galeria/galeria.css">
+
+    <!--Estilos - pagina Nuestra Bolivia-->
+    <link rel="stylesheet" href="/css/bolivia/mapas.css">
+
+    <!--Estilos - pagina Evolucion Historica-->
+    <link rel="stylesheet" href="/css/evolucion/dashboard.css">
+
+    <!--Estilos - pagina mantenimiento-->
+    <link rel="stylesheet" href="/css/config/mantenimiento.css">
+
+    <!---->
+   <link rel="stylesheet" href="/css/pagina/perfil.css">
+
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+    }
+
+  
+  </style>
+  </head>
+  <!--Cabecera -->
+
+  <header>
+    <div class="logo">
+      <img src="/img/logo.png" alt="Logo">
+      <!-- Coloca aquí la ruta de tu imagen/logo -->
+      <div class="logo-text">
+        <strong>ISS</strong>
+        <span>LIBRERIA VIRTUAL</span>
+      </div>
+    </div>
+
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="Biblioteca">Biblioteca</a>
+      <a href="Asistente">Asistente</a>
+      <a href="Galeria">Galería</a>
+      <a href="Nuestra-Bolivia">Nuestra Bolivia</a>
+      <a href="Evolucion-Historica">Evolucion Historica</a>
+      <a href="Ultimas-Elecciones">Ultimas Elecciones</a>
+    </nav>
+
+     <div class="auth">
+        <% if (session && session.user) { %>
+            <a href="/perfil" class="register">Ver Perfil</a>
+        <a href="/logout" class="login-btn">Cerrar sesión</a>
+      <% } else { %>
+        <a href="/login" class="login-btn">Iniciar sesión</a>
+        <a href="/register" class="register">Regístrate</a>
+      <% } %>
+      </div>
+
+  </header>

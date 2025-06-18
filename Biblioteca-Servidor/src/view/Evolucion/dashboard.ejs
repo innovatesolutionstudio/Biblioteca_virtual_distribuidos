@@ -1,0 +1,308 @@
+<%- include('../Pagina/cabecera.ejs') %>
+<section class="modulo-historico">
+  <h2 class="titulo-historico">Evolución Histórica de la Inflación en Bolivia</h2>
+
+  <div class="contenedor-historico">
+    <div class="grafico-principal">
+      <canvas id="graficoBarra"></canvas>
+    </div>
+
+    <aside class="filtros-historicos">
+      <form id="formFiltros" class="filtro" action="/Evolucion-Historica-Dashboard" method="GET">
+        <div id="mensajeGeneral" style="display: none; background-color: #ffebee; color: #c62828; padding: 12px 16px; border-left: 5px solid #c62828; border-radius: 4px; font-weight: 500; font-family: 'Inter', sans-serif; margin: 10px 0; position: relative;">
+          <span style="margin-right: 8px;">❌</span>
+          <span id="textoMensajeGeneral">Hubo un error al cargar los datos. Por favor, verifica tu conexión o intenta nuevamente.</span>
+        </div>
+
+        <label for="anio">Selecciona un año:</label>
+        <select name="anio" id="anio">
+          <% aniosDisponibles.forEach(anio => { %>
+            <option value="<%= anio %>" <%= anio == anioSeleccionado ? 'selected' : '' %>><%= anio %></option>
+          <% }) %>
+        </select>
+
+        <label for="departamentoSelector">Departamento:</label>
+        <select id="departamentoSelector" name="departamento">
+          <% ['CHUQUISACA', 'LA PAZ', 'COCHABAMBA', 'ORURO', 'POTOSÍ', 'TARIJA', 'SANTA CRUZ', 'BENI', 'PANDO'].forEach(dep => { %>
+            <option value="<%= dep %>" <%= dep == departamentoSeleccionado ? 'selected' : '' %>><%= dep %></option>
+          <% }) %>
+        </select>
+
+        <label for="indicadorPoblacionSelector">Indicador de Población:</label>
+        <select id="indicadorPoblacionSelector" name="indicadorPoblacion">
+          <% indicadoresPoblacion.forEach(ind => { %>
+            <option value="<%= ind %>" <%= ind == indicadorPoblacion ? 'selected' : '' %>><%= ind %></option>
+          <% }) %>
+        </select>
+
+        <label for="indicadorPobrezaSelector">Indicador de Pobreza:</label>
+        <select id="indicadorPobrezaSelector" name="indicadorPobreza">
+          <% indicadoresPobreza.forEach(ind => { %>
+            <option value="<%= ind %>" <%= ind == indicadorPobreza ? 'selected' : '' %>><%= ind %></option>
+          <% }) %>
+        </select>
+
+        <button type="submit" class="boton-generar">Generar</button>
+        <% if (session && session.user) { %>
+          <button type="button" class="boton-generar" onclick="exportarPDF()">Exportar PDF</button>
+         
+        <% } else { %>
+          <button type="button" class="boton-generar" onclick="window.location.href='/login'">Inicia sesión para exportar</button>
+          <button type="button" class="boton-generar" onclick="window.location.href='/login'">Inicia sesión para subir dataset</button>
+        <% } %>
+      </form>
+
+      <div class="resumen-filtros">
+        <p><strong>Seleccionado:</strong></p>
+        <ul>
+          <li>✅ Año: <span id="resumenAnio"><%= anioSeleccionado || 'Todos' %></span></li>
+          <li>✅ Departamento: <span id="resumenDepartamento"><%= departamentoSeleccionado || '-' %></span></li>
+          <li>✅ Indicador de Población: <span id="resumenIndicador"><%= indicadorPoblacion || '-' %></span></li>
+          <li>✅ Indicador de Pobreza: <span id="resumenIndicadorPobreza"><%= indicadorPobreza || '-' %></span></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <div class="metricas-historicas">
+    <div class="metrica">
+      <h4>Población por Municipio</h4>
+      <canvas id="graficoBarraMini"></canvas>
+    </div>
+    <div class="metrica">
+      <h4>Pobreza por Municipio</h4>
+      <canvas id="graficoDona"></canvas>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+  const datosInflacion = <%- JSON.stringify(datosInflacion) %>;
+  const datosPoblacion = <%- JSON.stringify(datosPoblacion) %>;
+  const datosPobreza = <%- JSON.stringify(datosPobreza) %>;
+
+  function generarGraficoInflacion() {
+    try {
+      const ctx = document.getElementById('graficoBarra').getContext('2d');
+      const etiquetas = datosInflacion.map(d => d.Year);
+      const valores = datosInflacion.map(d => d.Inflation);
+
+      if (window.chartInflacion) window.chartInflacion.destroy();
+
+      window.chartInflacion = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: etiquetas,
+          datasets: [{ label: 'Inflación (%)', data: valores, backgroundColor: '#4caf50' }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            title: { display: true, text: 'Inflación en Bolivia' }
+          }
+        }
+      });
+    } catch (error) {
+      mostrarErrorGeneral('Error al generar el gráfico de inflación.');
+      console.error('❌ Error al generar gráfico de inflación:', error);
+    }
+  }
+
+  function generarGraficoPoblacion() {
+    try {
+      const ctx = document.getElementById('graficoBarraMini').getContext('2d');
+      if (window.chartPoblacion) window.chartPoblacion.destroy();
+
+      window.chartPoblacion = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: datosPoblacion.labels || [],
+          datasets: datosPoblacion.tipo === 'comparativo' ? [
+            { label: 'Hombres', data: datosPoblacion.hombres || [], backgroundColor: '#2196f3' },
+            { label: 'Mujeres', data: datosPoblacion.mujeres || [], backgroundColor: '#ff9800' }
+          ] : [
+            { label: '<%= indicadorPoblacion || "Población" %>', data: datosPoblacion.valores || [], backgroundColor: '#4caf50' }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            title: { display: true, text: 'Población por Municipio' }
+          }
+        }
+      });
+    } catch (error) {
+      mostrarErrorGeneral('Error al generar el gráfico de población.');
+      console.error('❌ Error al generar gráfico de población:', error);
+    }
+  }
+
+  function generarGraficoPobreza() {
+    try {
+      const ctx = document.getElementById('graficoDona').getContext('2d');
+      if (window.chartPobreza) window.chartPobreza.destroy();
+
+      window.chartPobreza = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: datosPobreza.labels || [],
+          datasets: datosPobreza.tipo === 'comparativo' ? [
+            { label: 'Hombres', data: datosPobreza.hombres || [], borderColor: '#2196f3', fill: false },
+            { label: 'Mujeres', data: datosPobreza.mujeres || [], borderColor: '#ff9800', fill: false }
+          ] : [
+            { label: '<%= indicadorPobreza || "Pobreza" %>', data: datosPobreza.valores || [], borderColor: '#4caf50', fill: false }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            title: { display: true, text: 'Pobreza por Municipio' }
+          }
+        }
+      });
+    } catch (error) {
+      mostrarErrorGeneral('Error al generar el gráfico de pobreza.');
+      console.error('❌ Error al generar gráfico de pobreza:', error);
+    }
+  }
+
+  async function exportarPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const anio = document.getElementById('anio').value;
+    const dep = document.getElementById('departamentoSelector').value;
+    const indPob = document.getElementById('indicadorPoblacionSelector').value;
+    const indPobrez = document.getElementById('indicadorPobrezaSelector').value;
+    const fechaHoy = new Date().toLocaleDateString();
+
+    // Estilo cabecera
+    doc.setFillColor(0, 102, 204);
+    doc.rect(0, 0, 210, 20, 'F');
+    doc.setFontSize(14);
+    doc.setTextColor(255);
+    doc.setFont("helvetica", "bold");
+    doc.text("Biblioteca Virtual - Informe de Evolución Histórica", 105, 12, { align: 'center' });
+
+    // Subtítulo
+    doc.setFontSize(11);
+    doc.setTextColor(0);
+    doc.setFont("helvetica", "bold");
+    doc.text("Datos seleccionados", 105, 26, { align: 'center' });
+    doc.setLineWidth(0.4);
+    doc.line(10, 28, 200, 28);
+
+    // Información básica
+    doc.setFillColor(245);
+    doc.rect(10, 30, 190, 22, 'F');
+    doc.setFontSize(10);
+    doc.setTextColor(50);
+    doc.text(`Año de inflación: ${anio}`, 12, 36);
+    doc.text(`Departamento: ${dep}`, 110, 36);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Indicador Población:`, 12, 42);
+    doc.setFont("helvetica", "normal");
+    doc.text(doc.splitTextToSize(indPob, 85), 50, 42);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Indicador Pobreza:`, 12, 48);
+    doc.setFont("helvetica", "normal");
+    doc.text(doc.splitTextToSize(indPobrez, 85), 50, 48);
+
+    const descripciones = {
+      inflacion: `Este gráfico muestra la variación de la inflación en Bolivia a lo largo de una década seleccionada a partir del año ${anio}. Los datos son proporcionados por el INE y reflejan las tasas anuales de inflación.`,
+      poblacion: `El siguiente gráfico presenta el indicador seleccionado de población "${indPob}" en el departamento de ${dep}, segmentado por municipio. Este análisis permite entender la distribución demográfica en la región.`,
+      pobreza: `Aquí se visualiza el indicador de pobreza "${indPobrez}" para el departamento de ${dep}. Esta información es crucial para el diseño de políticas públicas que reduzcan las brechas sociales.`
+    };
+
+    const addDescripcion = (texto, posY) => {
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      const textoDividido = doc.splitTextToSize(texto, 180);
+      if (posY + textoDividido.length * 6 > 270) {
+        doc.addPage();
+        posY = 20;
+      }
+      doc.text(textoDividido, 15, posY);
+      return posY + textoDividido.length * 6 + 10;
+    };
+
+    const addCanvasImage = async (canvasId, titulo, posY) => {
+      const spacing = 6;
+      const imageHeight = 55;
+      const totalHeight = imageHeight + spacing + 10;
+
+      if (posY + totalHeight > 270) {
+        doc.addPage();
+        posY = 20;
+      }
+
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "bold");
+      doc.setTextColor(33, 33, 33);
+      doc.text(titulo, 105, posY, { align: 'center' });
+
+      const canvas = document.getElementById(canvasId);
+      const imgData = canvas.toDataURL('image/png');
+      doc.addImage(imgData, 'PNG', 10, posY + spacing, 190, imageHeight);
+
+      return posY + spacing + imageHeight + 10;
+    };
+
+    let posY = 60;
+    posY = await addCanvasImage('graficoBarra', "Gráfico 1: Inflación", posY);
+    posY = addDescripcion(descripciones.inflacion, posY);
+    posY = await addCanvasImage('graficoBarraMini', "Gráfico 2: Población", posY);
+    posY = addDescripcion(descripciones.poblacion, posY);
+    posY = await addCanvasImage('graficoDona', "Gráfico 3: Pobreza", posY);
+    posY = addDescripcion(descripciones.pobreza, posY);
+
+    doc.setFontSize(8);
+    doc.setTextColor(100);
+    const pageCount = doc.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.text(`Página ${i} de ${pageCount}`, 200 - 40, 290);
+      doc.text(`Generado el ${fechaHoy} por Biblioteca Virtual`, 15, 290);
+    }
+
+    doc.save(`reporte_${dep}_${anio}.pdf`);
+  }
+
+  function mostrarErrorGeneral(texto = "Hubo un error al cargar los datos. Por favor, verifica tu conexión o intenta nuevamente.") {
+    const msg = document.getElementById('mensajeGeneral');
+    const textoEl = document.getElementById('textoMensajeGeneral');
+    if (msg && textoEl) {
+      textoEl.textContent = texto;
+      msg.style.display = 'block';
+      setTimeout(() => {
+        msg.style.display = 'none';
+      }, 6000);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    generarGraficoInflacion();
+    generarGraficoPoblacion();
+    generarGraficoPobreza();
+
+    const form = document.getElementById('formFiltros');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.submit(); // Enviar el formulario al backend
+    });
+
+    // Actualizar resumen de filtros
+    document.getElementById('resumenAnio').textContent = '<%= anioSeleccionado || "Todos" %>';
+    document.getElementById('resumenDepartamento').textContent = '<%= departamentoSeleccionado || "-" %>';
+    document.getElementById('resumenIndicador').textContent = '<%= indicadorPoblacion || "-" %>';
+    document.getElementById('resumenIndicadorPobreza').textContent = '<%= indicadorPobreza || "-" %>';
+  });
+</script>
+
+<%- include('../Pagina/footer.ejs') %>
